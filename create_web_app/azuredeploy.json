@@ -27,8 +27,8 @@
   },
   "variables": {
     "storageAccountName": "[substring(toLower(concat(parameters('projectName'), uniqueString(resourceGroup().id))), 0, 24)]",
-    "webAppName": "[concat(parameters('projectName'), 'WebApp')]",
-    "appServicePlanName": "[concat(parameters('projectName'), 'Plan')]"
+    "webAppName": "[concat(parameters('projectName'), 'webapp')]",
+    "appServicePlanName": "[concat(parameters('projectName'), 'plan')]"
   },
   "resources": [
     {
@@ -60,15 +60,11 @@
         "tier": "Free",
         "size": "F1",
         "capacity": 1
-}
-
       },
       "kind": "linux",
       "properties": {
         "perSiteScaling": false,
-        "reserved": true,
-        "targetWorkerCount": 0,
-        "targetWorkerSizeId": 0
+        "reserved": true
       }
     },
     {
@@ -79,7 +75,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
       ],
-      "kind": "app",
+      "kind": "app,linux",
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
         "siteConfig": {
